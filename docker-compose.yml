@@ -1,0 +1,22 @@
+version: '3'
+services:
+  snapcastr:
+    build: ./snapcastr/
+    ports:
+    - "5000:5000"
+    links:
+    - snapcast
+  snapcast:
+    build: ./snapcast/
+    volumes:
+    - ./snapcast:/root/.config/snapcast
+    - audio-fifo:/tmp/snapfifo
+  mopidy:
+    image: wernight/mopidy
+    ports:
+    - "6680:6680"
+    volumes:
+    - ./mopidy:/config/
+    - audio-fifo:/tmp/snapfifo
+volumes:
+  audio-fifo:
